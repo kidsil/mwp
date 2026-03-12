@@ -1,0 +1,2766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Micro Workout Plan — 12 Weeks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --surface2: #1e2128;
+    --border: #2e323c;
+    --text: #f0f2f8;
+    --muted: #9aa0b4;
+    --p1: #2dd484;
+    --p1-dim: #1a5c3e;
+    --p1-glow: rgba(45,212,132,0.12);
+    --p2: #4da6ff;
+    --p2-dim: #174a7e;
+    --p2-glow: rgba(77,166,255,0.12);
+    --p3: #b870ff;
+    --p3-dim: #5b1f82;
+    --p3-glow: rgba(184,112,255,0.12);
+    --optC: #ff7340;
+    --optC-dim: #7a3010;
+    --optB: #ffd166;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+    font-size: 18px;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(14,15,17,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0 12px;
+  }
+
+  .site-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.6rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .site-title span { color: var(--phase-color, var(--p1)); }
+
+  .option-c-link {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--optC);
+    text-decoration: none;
+    border: 1px solid var(--optC-dim);
+    padding: 7px 16px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    opacity: 0.85;
+  }
+  .option-c-link:hover { opacity: 1; background: rgba(255,115,64,0.12); }
+
+  /* ── PHASE TABS ── */
+  .phase-tabs {
+    display: flex;
+    gap: 4px;
+  }
+
+  .phase-tab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: none;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .phase-tab:hover { color: var(--text); }
+  .phase-tab.active[data-phase="1"] { color: var(--p1); border-bottom-color: var(--p1); }
+  .phase-tab.active[data-phase="2"] { color: var(--p2); border-bottom-color: var(--p2); }
+  .phase-tab.active[data-phase="3"] { color: var(--p3); border-bottom-color: var(--p3); }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 36px 48px 100px;
+  }
+
+  /* ── PHASE COLORS ── */
+  [data-active-phase="1"] { --phase-color: var(--p1); --phase-glow: var(--p1-glow); --phase-dim: var(--p1-dim); }
+  [data-active-phase="2"] { --phase-color: var(--p2); --phase-glow: var(--p2-glow); --phase-dim: var(--p2-dim); }
+  [data-active-phase="3"] { --phase-color: var(--p3); --phase-glow: var(--p3-glow); --phase-dim: var(--p3-dim); }
+
+  /* ── WIDE LAYOUT ── */
+  .day-content-wide {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* The table-wrap fills its grid cell naturally */
+  .day-content-wide .table-wrap { height: 100%; }
+
+  /* On narrow screens, stack */
+  @media (max-width: 900px) {
+    .day-content-wide { grid-template-columns: 1fr; }
+    .main { padding: 24px 20px 80px; }
+  }
+
+  /* ── PHASE BADGE ── */
+  .phase-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    background: var(--phase-glow);
+    color: var(--phase-color);
+    display: inline-block;
+    margin-bottom: 22px;
+  }
+
+  /* ── DAY NAV ── */
+  .day-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .day-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .day-btn:hover { color: var(--text); border-color: var(--phase-color); }
+  .day-btn.active {
+    background: var(--phase-color);
+    border-color: var(--phase-color);
+    color: #0e0f11;
+    font-weight: 800;
+  }
+
+  /* ── DAY HEADER ── */
+  .day-header { margin-bottom: 24px; }
+
+  .day-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 3.8rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--phase-color);
+  }
+
+  .day-focus {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 6px;
+  }
+
+  .day-original {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* ── A/B TOGGLE ── */
+  .ab-toggle {
+    display: inline-flex;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px;
+    margin: 20px 0 28px;
+    gap: 4px;
+  }
+
+  .ab-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    padding: 12px 36px;
+    border-radius: 8px;
+    border: none;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .ab-btn.active-a { background: var(--text); color: #111; }
+  .ab-btn.active-b { background: var(--optB); color: #111; }
+  .ab-btn:not(.active-a):not(.active-b):hover { color: var(--text); }
+
+  /* ── PANEL LABEL ── */
+  .panel-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+
+  .panel-label-a { background: rgba(240,242,248,0.1); color: var(--text); }
+  .panel-label-b { background: rgba(255,209,102,0.12); color: var(--optB); }
+
+  /* ── TABLE WRAP ── */
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  /* ── WORKOUT TABLE (Option A) ──
+     2 columns: exercise+note stacked | sets
+  ── */
+  .workout-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .workout-table thead th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .workout-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+  }
+
+  .workout-table tbody tr:last-child { border-bottom: none; }
+  .workout-table tbody tr:hover { background: var(--surface2); }
+
+  .workout-table td {
+    padding: 18px 20px;
+    vertical-align: middle;
+  }
+
+  /* Exercise name + note stacked */
+  .ex-name {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--text);
+    line-height: 1.25;
+  }
+
+  .ex-note {
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* Sets column */
+  .ex-sets {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--phase-color);
+    white-space: nowrap;
+    text-align: right;
+    width: 1%;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── OPTION B TABLE ── */
+  .optb-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .optb-table thead th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .optb-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+  }
+
+  .optb-table tbody tr:last-child { border-bottom: none; }
+  .optb-table tbody tr:hover { background: var(--surface2); }
+  .optb-table td { padding: 18px 20px; vertical-align: top; }
+
+  .session-time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--optB);
+    white-space: nowrap;
+    width: 100px;
+    padding-top: 20px;
+  }
+
+  .session-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    white-space: nowrap;
+    width: 160px;
+    padding-top: 19px;
+  }
+
+  .session-exercises {
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  /* ── OPTION C COLLAPSED STATE ── */
+  #option-c {
+    margin-top: 100px;
+    padding-top: 70px;
+    border-top: 2px solid var(--optC-dim);
+    display: none; /* hidden until toggled */
+  }
+
+  #option-c.visible {
+    display: block;
+    animation: fadeSlideIn 0.3s ease;
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Button pressed state */
+  .option-c-link.open {
+    background: rgba(255,115,64,0.18);
+    opacity: 1;
+  }
+
+  .optc-header { margin-bottom: 40px; }
+
+  .optc-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--optC);
+    margin-bottom: 8px;
+  }
+
+  .optc-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 3.2rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .optc-subtitle {
+    font-size: 1rem;
+    color: var(--muted);
+    margin-top: 12px;
+    max-width: 640px;
+    line-height: 1.65;
+  }
+
+  .optc-meta {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .optc-meta-item {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--optC);
+    border: 1px solid var(--optC-dim);
+    padding: 5px 12px;
+    border-radius: 4px;
+  }
+
+  .optc-phase-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  /* Option C blocks in 2-col grid on wide screens */
+  .optc-blocks-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .optc-blocks-grid { grid-template-columns: 1fr; }
+  }
+
+  .optc-phase-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .optc-phase-btn.active { background: var(--optC); border-color: var(--optC); color: #fff; }
+  .optc-phase-btn:not(.active):hover { color: var(--text); border-color: var(--optC); }
+
+  .optc-block {
+    margin-bottom: 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .optc-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .optc-block-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .optc-block-duration {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .optc-block-name[data-color="warmup"] { color: #90a4ae; }
+  .optc-block-name[data-color="pull"]   { color: var(--p1); }
+  .optc-block-name[data-color="push"]   { color: var(--p2); }
+  .optc-block-name[data-color="cond"]   { color: var(--p3); }
+  .optc-block-name[data-color="cool"]   { color: #78909c; }
+
+  /* Option C uses same 2-col stacked style */
+  .optc-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .optc-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+  }
+
+  .optc-table tbody tr:last-child { border-bottom: none; }
+  .optc-table tbody tr:hover td { background: rgba(255,255,255,0.025); }
+
+  .optc-table td { padding: 16px 20px; vertical-align: middle; }
+
+  /* ── BACK LINK ── */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-top: 48px;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--text); }
+
+  /* ── WEEK TRACKER ── */
+  .tracker-toggle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 7px 16px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    cursor: pointer;
+    background: none;
+    white-space: nowrap;
+  }
+
+  .tracker-toggle:hover { color: var(--text); border-color: var(--phase-color, var(--p1)); }
+  .tracker-toggle.open {
+    color: var(--phase-color, var(--p1));
+    border-color: var(--phase-color, var(--p1));
+    background: var(--p1-glow);
+  }
+
+  /* Dot indicator when there are missed days */
+  .tracker-toggle .tracker-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff5252;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .week-tracker {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    max-height: 0;
+    padding: 0 32px;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+
+  .week-tracker.open {
+    max-height: 400px;
+    padding: 14px 32px 12px;
+  }
+
+  .tracker-row {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+
+  .tracker-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    transition: all 0.15s;
+    min-width: 52px;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tracker-day:hover { background: var(--surface2); }
+  .tracker-day:active { background: var(--surface2); }
+
+  .tracker-day .day-abbr {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1;
+  }
+
+  .tracker-day .day-check {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: transparent;
+    transition: all 0.15s;
+  }
+
+  .tracker-day.done .day-check {
+    background: var(--phase-color, var(--p1));
+    border-color: var(--phase-color, var(--p1));
+    color: #0e0f11;
+  }
+
+  .tracker-day.today .day-abbr { color: var(--phase-color, var(--p1)); }
+  .tracker-day.today .day-check { border-color: var(--phase-color, var(--p1)); }
+
+  .tracker-day.missed .day-check {
+    border-color: #ff5252;
+    border-style: dashed;
+  }
+
+  .tracker-day.missed .day-abbr { color: #ff5252; }
+
+  .catchup-banner {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(255,82,82,0.08);
+    border: 1px solid rgba(255,82,82,0.2);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  .catchup-banner .catchup-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #ff8a80;
+    margin-bottom: 4px;
+  }
+
+  .catchup-sched {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .catchup-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.82rem;
+  }
+
+  .catchup-item .ci-day {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    color: var(--phase-color, var(--p1));
+  }
+
+  .catchup-item .ci-arrow { color: var(--muted); margin: 0 4px; }
+  .catchup-item .ci-focus { color: var(--text); }
+
+  .catchup-item.swap .ci-focus { color: var(--optB); }
+
+  .tracker-footer {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .tracker-reset {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 4px 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .tracker-reset.visible { opacity: 0.6; }
+  .tracker-reset:hover { opacity: 1; color: var(--text); }
+
+  @media (max-width: 600px) {
+    .week-tracker { padding: 0 10px; }
+    .week-tracker.open { padding: 12px 10px 10px; }
+    .tracker-row { gap: 2px; }
+    .tracker-day { min-width: 0; flex: 1; padding: 6px 2px; }
+    .tracker-day .day-check { width: 30px; height: 30px; font-size: 0.85rem; }
+    .tracker-day .day-abbr { font-size: 0.7rem; }
+    .catchup-banner { font-size: 0.82rem; padding: 8px 10px; }
+    .catchup-item { white-space: normal; font-size: 0.78rem; padding: 5px 8px; }
+    .tracker-toggle { font-size: 0.8rem; padding: 6px 10px; }
+  }
+
+  /* ── SHOW/HIDE ── */
+  .phase-panel  { display: none; }
+  .phase-panel.active  { display: block; }
+  .optc-phase-panel { display: none; }
+  .optc-phase-panel.active { display: block; }
+
+  /* ══════════════════════════════════════════════
+     TIMER OVERLAY
+  ══════════════════════════════════════════════ */
+  #timer-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #0a0b0d;
+    flex-direction: column;
+  }
+  #timer-overlay.t-active { display: flex; }
+
+  /* bg flash for last 3s */
+  @keyframes bgDanger {
+    0%, 100% { background-color: #0a0b0d; }
+    50%       { background-color: #220808; }
+  }
+  #timer-overlay.t-flashing { animation: bgDanger 0.8s ease-in-out infinite; }
+
+  /* ── shared top bar ── */
+  .t-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    background: rgba(0,0,0,0.3);
+  }
+  .t-topbar-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .t-topbar-label.rest-label { color: var(--optB); }
+  .t-topbar.rest-topbar { border-bottom-color: var(--optB); background: rgba(255,209,102,0.06); }
+  .t-stop {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .t-stop:hover { color: var(--text); border-color: #666; }
+
+  .t-nav-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .t-nav-btn:hover { color: var(--text); border-color: #666; }
+  .t-nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .t-nav-btn:disabled:hover { color: var(--muted); border-color: var(--border); }
+
+  /* ── EXERCISE VIEW ── */
+  #t-exercise-view {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+  }
+  #t-exercise-view.t-show { display: flex; }
+
+  .t-ex-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 60px 24px;
+  }
+
+  .t-ex-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .t-ex-note {
+    font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 36px;
+    max-width: 80ch;
+  }
+
+  .t-clock {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(7rem, 15vw, 13rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--phase-color);
+    transition: color 0.25s;
+    margin-bottom: 16px;
+  }
+  .t-clock.t-warn   { color: #e8a020; }
+  .t-clock.t-danger { color: #e03535; }
+
+  .t-progress {
+    width: 100%;
+    height: 10px;
+    background: var(--surface2);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .t-progress-fill {
+    height: 100%;
+    border-radius: 5px;
+    background: var(--phase-color);
+    transition: width 0.9s linear, background 0.25s;
+  }
+  .t-progress-fill.t-warn   { background: #e8a020; }
+  .t-progress-fill.t-danger { background: #e03535; }
+
+  /* get-ready countdown */
+  .t-countdown {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .t-countdown.t-show { display: flex; }
+  .t-countdown-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .t-countdown-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(8rem, 20vw, 16rem);
+    line-height: 1;
+    color: var(--phase-color);
+    animation: countPop 0.6s ease-out;
+  }
+  @keyframes countPop {
+    0%   { transform: scale(1.5); opacity: 0.3; }
+    100% { transform: scale(1);   opacity: 1; }
+  }
+
+  /* rep-based */
+  .t-reps-cue {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 36px;
+    animation: repsPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes repsPulse {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 1; }
+  }
+
+  /* ── UP NEXT STRIP (bottom of exercise view) ── */
+  .t-up-next {
+    border-top: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    flex-shrink: 0;
+    background: var(--surface);
+  }
+  .t-up-next-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .t-up-next-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.15rem, 2.2vw, 1.75rem);
+    text-transform: uppercase;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .t-up-next-sets {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: var(--muted);
+    margin-left: auto;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── REST VIEW ── */
+  #t-rest-view {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    background: #0d1117;
+    border-left: 4px solid var(--optB);
+  }
+  #t-rest-view.t-show { display: flex; }
+
+  .t-rest-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 36px 60px 20px;
+  }
+
+  .t-rest-banner {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--optB);
+    opacity: 0.18;
+    line-height: 1;
+    margin-bottom: 8px;
+    user-select: none;
+  }
+
+  .t-rest-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--optB);
+    margin-bottom: 14px;
+  }
+
+  .t-rest-next-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .t-rest-next-sets {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    color: var(--phase-color);
+    margin-bottom: 10px;
+  }
+
+  .t-rest-next-note {
+    font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+    color: var(--muted);
+    font-style: italic;
+    max-width: 72ch;
+    line-height: 1.5;
+  }
+
+  .t-tap-cue {
+    display: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--phase-color);
+    margin-top: 32px;
+    animation: repsPulse 1.1s ease-in-out infinite;
+  }
+  .t-tap-cue.visible { display: block; }
+
+  /* rest footer */
+  .t-rest-footer {
+    border-top: 1px solid var(--border);
+    padding: 22px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+    background: var(--surface);
+  }
+
+  .t-rest-elapsed-wrap { display: flex; flex-direction: column; }
+
+  .t-rest-elapsed {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 2.6rem;
+    color: var(--muted);
+    line-height: 1;
+    transition: color 0.3s;
+    min-width: 90px;
+  }
+  .t-rest-elapsed.t-cue { color: var(--optB); }
+
+  .t-rest-suggested {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 3px;
+  }
+
+  .t-add-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    padding: 14px 26px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .t-add-btn:hover { color: var(--text); border-color: #666; }
+
+  .t-ready-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    padding: 16px 52px;
+    border-radius: 10px;
+    border: none;
+    background: var(--phase-color);
+    color: #0a0b0d;
+    cursor: pointer;
+    margin-left: auto;
+    transition: all 0.15s;
+  }
+  .t-ready-btn:hover { opacity: 0.88; transform: scale(1.02); }
+  .t-ready-btn:active { transform: scale(0.98); }
+
+  /* ── DONE VIEW ── */
+  #t-done-view {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+  }
+  #t-done-view.t-show { display: flex; }
+
+  .t-done-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(4rem, 10vw, 8rem);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--p1);
+    line-height: 0.95;
+    margin-bottom: 20px;
+  }
+  .t-done-sub {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    color: var(--muted);
+    margin-bottom: 52px;
+  }
+  .t-done-close {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 16px 56px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .t-done-close:hover { border-color: var(--text); }
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .site-header { padding: 0 16px; }
+    .header-top { flex-wrap: wrap; gap: 8px; padding: 12px 0 8px; }
+    .site-title { font-size: 1.3rem; }
+    .option-c-link { font-size: 0.8rem; padding: 6px 10px; white-space: nowrap; }
+    .phase-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 0; }
+    .phase-tab { padding: 10px 14px; font-size: 0.85rem; flex-shrink: 0; }
+    .main { padding: 16px 14px 60px; }
+    .day-label { font-size: 2.4rem; }
+    .day-focus { font-size: 1rem; }
+    .day-nav { gap: 6px; }
+    .day-btn { padding: 10px 14px; font-size: 0.9rem; }
+    .ab-toggle { margin: 14px 0 20px; }
+    .ab-btn { padding: 10px 20px; font-size: 1rem; }
+    .ex-name { font-size: 1.1rem; }
+    .ex-sets { font-size: 1.1rem; }
+    .workout-table td { padding: 14px 12px; }
+
+    /* Option B table: stack on mobile */
+    .optb-table thead { display: none; }
+    .optb-table tbody tr {
+      display: flex;
+      flex-direction: column;
+      padding: 14px 14px;
+    }
+    .optb-table td { padding: 2px 0; width: auto !important; }
+    .session-time { font-size: 0.85rem; }
+    .session-label { font-size: 1rem; white-space: normal; }
+    .session-exercises { font-size: 0.95rem; }
+
+    /* Option C */
+    .optc-title { font-size: 2.2rem; }
+    .optc-phase-tabs { gap: 6px; }
+    .optc-phase-btn { padding: 8px 14px; font-size: 0.85rem; }
+
+    /* Timer overlay */
+    .t-topbar { padding: 12px 16px; }
+    .t-stop { padding: 6px 10px; font-size: 0.75rem; }
+    .t-nav-btn { padding: 6px 10px; font-size: 0.75rem; }
+    .t-ex-body { padding: 24px 20px 16px; }
+    .t-rest-body { padding: 24px 20px 16px; }
+    .t-up-next { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+    .t-up-next-name { white-space: normal; font-size: 1.1rem; }
+    .t-up-next-sets { margin-left: 0; }
+    .t-rest-footer { padding: 14px 16px; flex-wrap: wrap; gap: 12px; }
+    .t-rest-elapsed { font-size: 2rem; }
+    .t-add-btn { padding: 12px 20px; font-size: 1rem; }
+    .t-ready-btn { padding: 14px 32px; font-size: 1.2rem; margin-left: auto; }
+    .t-rest-next-name { font-size: clamp(2rem, 6vw, 3.5rem); }
+
+    /* Start session button */
+    .t-start-btn { padding: 14px 32px; font-size: 1rem; width: 100%; justify-content: center; }
+  }
+
+  /* ── START SESSION BUTTON ── */
+  .t-start-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.15rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--phase-color);
+    border: none;
+    color: #0a0b0d;
+    padding: 16px 44px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.18s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .t-start-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+  .t-start-btn:active { transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     STICKY HEADER
+══════════════════════════════════════════════════════════════════════════════ -->
+<header class="site-header" id="top">
+  <div class="header-top">
+    <div class="site-title">Micro <span>Workout</span></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button onclick="toggleWeekTracker()" class="tracker-toggle" id="tracker-toggle-btn">My Week</button>
+      <button onclick="toggleOptC()" class="option-c-link" id="optc-toggle-btn">Option C</button>
+    </div>
+  </div>
+  <div class="phase-tabs">
+    <button class="phase-tab active" data-phase="1" onclick="setPhase(1)">Phase 1 · Weeks 1–4</button>
+    <button class="phase-tab" data-phase="2" onclick="setPhase(2)">Phase 2 · Weeks 5–8</button>
+    <button class="phase-tab" data-phase="3" onclick="setPhase(3)">Phase 3 · Weeks 9–12</button>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     WEEK TRACKER
+══════════════════════════════════════════════════════════════════════════════ -->
+<div class="week-tracker" id="week-tracker" data-active-phase="1"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════════════════════════════════════════ -->
+<main class="main" id="workout-main">
+
+  <!-- PHASE PANELS -->
+  <div id="phase-1" class="phase-panel active" data-active-phase="1"></div>
+  <div id="phase-2" class="phase-panel" data-active-phase="2"></div>
+  <div id="phase-3" class="phase-panel" data-active-phase="3"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       OPTION C SECTION
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <section id="option-c">
+    <div class="optc-header">
+      <div class="optc-eyebrow">Option C — When you get a full hour</div>
+      <div class="optc-title">The Power Session</div>
+      <p class="optc-subtitle">One proper workout a week. Not a longer micro session — this is real compound loading, supersets with short rest, and genuine conditioning. On this day, skip the micro workout entirely.</p>
+      <div class="optc-meta">
+        <span class="optc-meta-item">~60 minutes</span>
+        <span class="optc-meta-item">Bands + Pull-Up Bar</span>
+        <span class="optc-meta-item">Full Body</span>
+        <span class="optc-meta-item">Scales by Phase</span>
+      </div>
+    </div>
+
+    <div class="optc-phase-tabs">
+      <button class="optc-phase-btn active" data-cphase="1" onclick="setOptCPhase(1)">Phase 1 · Foundation</button>
+      <button class="optc-phase-btn" data-cphase="2" onclick="setOptCPhase(2)">Phase 2 · Intensification</button>
+      <button class="optc-phase-btn" data-cphase="3" onclick="setOptCPhase(3)">Phase 3 · Peak</button>
+    </div>
+
+    <div id="optc-phase-1" class="optc-phase-panel active"></div>
+    <div id="optc-phase-2" class="optc-phase-panel"></div>
+    <div id="optc-phase-3" class="optc-phase-panel"></div>
+
+    <a href="#top" class="back-link">↑ Back to daily workouts</a>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TIMER OVERLAY
+══════════════════════════════════════════════════════════════════════════════ -->
+<div id="timer-overlay">
+
+  <!-- shared top bar -->
+  <div class="t-topbar">
+    <div class="t-topbar-label" id="t-topbar-label">EXERCISE</div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="t-nav-btn" id="t-prev-btn" onclick="navPrev()" title="Previous">◂ Prev</button>
+      <div id="t-progress-txt" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.1em;color:var(--muted)"></div>
+      <button class="t-nav-btn" id="t-next-btn" onclick="navNext()" title="Next">Next ▸</button>
+      <button class="t-stop" onclick="stopSession()">✕ End</button>
+    </div>
+  </div>
+
+  <!-- EXERCISE VIEW -->
+  <div id="t-exercise-view">
+    <div class="t-ex-body">
+      <div class="t-ex-name" id="t-ex-name">—</div>
+      <div class="t-ex-note" id="t-ex-note"></div>
+      <!-- get-ready countdown -->
+      <div class="t-countdown" id="t-countdown">
+        <div class="t-countdown-label">GET INTO POSITION</div>
+        <div class="t-countdown-num" id="t-countdown-num">5</div>
+      </div>
+      <!-- timed -->
+      <div id="t-timed-block" style="display:none">
+        <div class="t-clock" id="t-clock">0:00</div>
+        <div class="t-progress"><div class="t-progress-fill" id="t-progress-fill"></div></div>
+      </div>
+      <!-- reps -->
+      <div id="t-reps-block" style="display:none">
+        <div class="t-reps-cue">TAP ANYWHERE WHEN DONE</div>
+      </div>
+    </div>
+    <div class="t-up-next" id="t-up-next">
+      <div class="t-up-next-tag">UP NEXT</div>
+      <div class="t-up-next-name" id="t-up-next-name">—</div>
+      <div class="t-up-next-sets" id="t-up-next-sets"></div>
+    </div>
+  </div>
+
+  <!-- REST VIEW -->
+  <div id="t-rest-view">
+    <div class="t-rest-body">
+      <div class="t-rest-banner">REST</div>
+      <div class="t-rest-eyebrow">UP NEXT</div>
+      <div class="t-rest-next-name" id="t-rest-next-name">—</div>
+      <div class="t-rest-next-sets" id="t-rest-next-sets"></div>
+      <div class="t-rest-next-note" id="t-rest-next-note"></div>
+      <div class="t-tap-cue" id="t-tap-cue">TAP TO GO</div>
+    </div>
+    <div class="t-rest-footer">
+      <div class="t-rest-elapsed-wrap">
+        <div class="t-rest-elapsed" id="t-rest-elapsed">0:00</div>
+        <div class="t-rest-suggested" id="t-rest-suggested"></div>
+      </div>
+      <button class="t-add-btn" id="t-add-btn">+15s</button>
+      <button class="t-ready-btn" onclick="restDone()">READY →</button>
+    </div>
+  </div>
+
+  <!-- DONE VIEW -->
+  <div id="t-done-view">
+    <div class="t-done-title">Session<br>Complete</div>
+    <div class="t-done-sub" id="t-done-sub">—</div>
+    <button class="t-done-close" onclick="stopSession()">Back to Plan</button>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     DATA + RENDER
+══════════════════════════════════════════════════════════════════════════════ -->
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+
+const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Sat / Sun'];
+
+const data = {
+  1: [
+    {
+      day: 'Monday', focus: 'Upper Body Push/Pull + Core',
+      original: 'P90X3 "The Challenge" + Ab Ripper X (46 min)',
+      optA: [
+        { name: 'Dead hang', sets: '2 × 20–30s / 30s rest', note: 'Just hang from the bar, arms straight, no movement. Warms up shoulders and primes your grip (forearms ready for pulling).' },
+        { name: 'Push-ups', sets: '3 × 45s / 15s rest', note: 'Wide → narrow → standard each set' },
+        { name: 'Pull-ups (or negatives)', sets: '3 × max / 60s rest', note: 'If reps are low, do slow 5s negatives to build' },
+        { name: 'Pike push-ups', sets: '2 × 30s / 15s rest', note: 'Targets shoulders like an overhead press' },
+        { name: 'Chin-ups (supinated grip)', sets: '2 × max / 60s rest', note: 'Palms facing you — hits biceps more than pull-up' },
+        { name: 'Dead bugs', sets: '2 × 40s / 20s rest', note: 'Lie on back, arms pointing up, knees at 90°. Slowly extend opposite arm + leg toward floor, return. Lower back stays pressed flat.' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Pull snack', exercises: 'Pull-ups: 5 × 3–5 reps with 45s rest. Grease the groove — fresh, not fatigued.' },
+        { time: 'Midday', label: 'Push snack', exercises: 'Push-up pyramid: 1, 2, 3, 4, 3, 2, 1 reps with 10s rest between.' },
+        { time: 'Evening', label: 'Chin-up + core', exercises: 'Chin-ups 3 × max → dead bug (lie on back, extend opposite arm + leg) 2 × 40s.' },
+      ]
+    },
+    {
+      day: 'Tuesday', focus: 'Cardio / Conditioning',
+      original: 'P90X3 "CVX" (30 min)',
+      optA: [
+        { name: 'Marching in place', sets: '2 min', note: 'Pump arms, raise knees to hip height' },
+        { name: 'Side-to-side step-outs', sets: '2 × 40s / 20s rest', note: 'Low sweat — keep toddler entertained!' },
+        { name: 'Slow mountain climbers', sets: '2 × 40s / 20s rest', note: '3-second cadence each leg' },
+        { name: 'Squat + reach overhead', sets: '2 × 40s / 20s rest', note: 'Pause 1s at bottom, reach on stand' },
+        { name: 'Standing cross-body punches', sets: '2 × 40s / 20s rest', note: 'Fast hands, pivot hips — fun with a toddler watching' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Wake-up cardio', exercises: '3 min brisk marching or step-touches — no sweating needed.' },
+        { time: 'Midday', label: 'Energy break', exercises: '3 min: 20 squat pulses → 20 standing cross-punches → 10 jumping jacks.' },
+        { time: 'Afternoon', label: 'Movement snack', exercises: '3 min: slow mountain climbers 40s → rest 20s × 3.' },
+        { time: 'Evening', label: 'Wind-down cardio', exercises: '3 min: march in place 60s → squat + reach 60s → lateral steps 60s.' },
+      ]
+    },
+    {
+      day: 'Wednesday', focus: 'Full-Body Functional Strength',
+      original: 'P90X3 "Total Synergistics" (30 min)',
+      optA: [
+        { name: 'Squat to stand', sets: '60s', note: 'Slow descent, hold bottom 1s — hip opener' },
+        { name: 'Push-up + shoulder tap', sets: '3 × 40s / 20s rest', note: 'Tap alternate shoulders at top' },
+        { name: 'Wide-grip pull-up', sets: '3 × max / 60s rest', note: 'Focus on lat engagement — elbows down and back' },
+        { name: 'Reverse lunge', sets: '2 × 40s / 20s rest', note: 'Alternate legs, keep front shin vertical' },
+        { name: 'L-hang (tuck if needed)', sets: '2 × 15–20s / 20s rest', note: 'L-hang: hang from bar and raise straight legs to 90°, forming an L. Tuck version: same but pull knees to chest — easier.' },
+        { name: 'Glute bridge', sets: '2 × 40s / 20s rest', note: 'Pause 2s at top, drive through heels' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Pull + lower', exercises: 'Pull-ups 4 × 3–5 reps (fresh) → squats × 15 → reverse lunge × 8 each.' },
+        { time: 'Midday', label: 'Push + glutes', exercises: 'Push-up + shoulder tap 3 × 40s → glute bridge 3 × 40s. Superset.' },
+        { time: 'Evening', label: 'Hanging core', exercises: 'L-hang (legs up to 90° while hanging) or tuck hang (knees to chest) 3 × 20s → dead bug 2 × 45s → banana hold 2 × 20s.' },
+      ]
+    },
+    {
+      day: 'Thursday', focus: 'Full Bodyweight Circuit (No Equipment)',
+      original: 'P90X3 "The Warrior" (30 min)',
+      optA: [
+        { name: 'Squat pulses', sets: '45s / 15s rest', note: 'Go halfway down into a squat, then bounce up and down in small pulses — never fully standing up. Stay in the burn zone around 60% depth.' },
+        { name: 'Push-ups', sets: '45s / 15s rest', note: 'Choose any variation to match fatigue' },
+        { name: 'Reverse lunges alternating', sets: '45s / 15s rest', note: 'Alternate legs, keep torso upright' },
+        { name: 'Mountain climbers (slow)', sets: '45s / 15s rest', note: 'Shoulders over wrists, hips level' },
+        { name: 'Superman holds', sets: '45s / 15s rest', note: 'Hold 2s at top each rep — works posterior chain' },
+        { name: 'Banana hold', sets: '3 × 20s / 10s rest', note: 'Lower back pressed to floor' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Upper circuit', exercises: 'Push-ups × 10 → mountain climbers 20s → superman × 8. Rest 20s, repeat 3×.' },
+        { time: 'Midday', label: 'Lower circuit', exercises: 'Squats × 15 → reverse lunges × 10 each → squat pulses 30s. Repeat 2×.' },
+        { time: 'Evening', label: 'Core + hinge', exercises: 'Banana hold 20s → dead bug (opposite arm + leg extensions on back) 40s → superman 40s. Repeat 2×.' },
+      ]
+    },
+    {
+      day: 'Friday', focus: 'Lower Body + Core',
+      original: 'P90X3 "Eccentric Lower" + Ab Ripper X (46 min)',
+      optA: [
+        { name: 'Eccentric squat (5-sec down)', sets: '3 × 8 reps / 30s rest', note: 'Count to 5 going down, normal up — intense!' },
+        { name: 'Eccentric reverse lunge (3-sec down)', sets: '2 × 6 each leg / 30s rest', note: 'Time under tension — more muscle per rep' },
+        { name: 'Single-leg glute bridge', sets: '2 × 30s each side / 15s rest', note: 'Non-working leg bent, not raised' },
+        { name: 'Band Romanian deadlift', sets: '3 × 10 reps / 20s rest', note: 'Hinge at hips, soft knee, flat back' },
+        { name: 'Bicycle crunches', sets: '2 × 40s / 20s rest', note: 'Slow and controlled, no neck pull' },
+        { name: 'Leg raises', sets: '2 × 30s / 15s rest', note: 'Lower back stays flat against floor' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Squat quality', exercises: 'Eccentric squats (5-sec down) × 10. Rest 60s. Repeat 3 sets. Quality over speed.' },
+        { time: 'Afternoon', label: 'Single-leg work', exercises: 'Single-leg glute bridge 30s each → eccentric lunge 6 each leg. Repeat 2×.' },
+        { time: 'Evening', label: 'Core finisher', exercises: 'Bicycle crunches 40s → leg raises 30s → banana hold 20s. 2 rounds, 20s rest.' },
+      ]
+    },
+    {
+      day: 'Sat / Sun', focus: 'Active Recovery (Optional)',
+      original: 'X Stretch / Dynamix / Yoga (30 min)',
+      optA: [
+        { name: 'Cat-cow flow', sets: '1–2 min', note: 'Sync breath with movement' },
+        { name: 'Hip flexor stretch (kneeling)', sets: '45s each side', note: 'Critical if you sit for work' },
+        { name: 'World\'s greatest stretch', sets: '4 reps each side', note: 'Step forward, elbow to ground, rotate up' },
+        { name: 'Thoracic rotations (seated)', sets: '10 reps each side', note: 'Great for desk workers' },
+        { name: 'Child\'s pose', sets: '60–90s', note: 'Breathe into the lower back' },
+        { name: 'Legs-up-the-wall', sets: '3–5 min', note: 'Best recovery tool — zero effort' },
+      ],
+      optB: [
+        { time: 'Anytime', label: '2-min mobility', exercises: 'Hip flexor 45s each + thoracic rotations 30s each — can do between tasks.' },
+        { time: 'Anytime', label: '2-min flexibility', exercises: 'World\'s greatest stretch 3× per side + cat-cow 60s.' },
+        { time: 'Before bed', label: 'Wind-down', exercises: 'Child\'s pose 90s → legs-up-the-wall 5 min — genuinely restoring.' },
+      ]
+    },
+  ],
+  2: [
+    {
+      day: 'Monday', focus: 'Push Muscles + Core (Chest, Shoulders, Triceps)',
+      original: 'P90X "Chest, Shoulders & Triceps" + Ab Ripper X (71 min)',
+      optA: [
+        { name: 'Standard push-ups', sets: 'Max reps (test)', note: 'Your benchmark — log this number' },
+        { name: 'Pike push-ups', sets: '3 × 40s / 20s rest', note: 'Targets shoulders heavily' },
+        { name: 'Close-grip push-ups (triceps)', sets: '3 × 40s / 20s rest', note: 'Elbows track back, not flared' },
+        { name: 'Band lateral raise', sets: '2 × 12 reps / 20s rest', note: 'Stop at shoulder height, slow lower' },
+        { name: 'Chair dips', sets: '3 × 10 reps / 20s rest', note: 'Hands on chair edge, elbows back' },
+        { name: 'Plank → side plank rotations', sets: '2 × 45s / 15s rest', note: 'Flow continuously side to side' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Push compound', exercises: 'Pike push-ups 3 × 10 → standard push-ups 3 × 8. Rest 20s between.' },
+        { time: 'Midday', label: 'Shoulder + triceps', exercises: 'Band lateral raise 3 × 12 → chair dips 3 × 10. Superset, 30s rest.' },
+        { time: 'Evening', label: 'Core strength', exercises: 'Side plank 30s each → plank 45s → banana hold 30s. Repeat 2×.' },
+      ]
+    },
+    {
+      day: 'Tuesday', focus: 'Plyometric Lower Body',
+      original: 'P90X3 "Triometrics" (30 min)',
+      optA: [
+        { name: 'Squat jump (soft landing)', sets: '3 × 30s / 30s rest', note: 'Land toe-ball-heel, absorb fully — quiet!' },
+        { name: 'Alternating jump lunge', sets: '3 × 20s / 40s rest', note: 'Reduce impact: step-switch if tired' },
+        { name: 'Speed squat (pulsing)', sets: '3 × 40s / 20s rest', note: 'Quarter-range, fast tempo — burns without jumping' },
+        { name: 'Skater bounds (side to side)', sets: '3 × 30s / 30s rest', note: 'Touch floor with opposite hand — good cardio' },
+        { name: 'Box step-up on chair', sets: '2 × 12 each leg / 20s rest', note: 'Stable chair, drive through heel to stand' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Explosive lower', exercises: 'Squat jump 3 × 30s / 30s rest — while toddler naps or plays safely.' },
+        { time: 'Midday', label: 'Lunge power', exercises: 'Jump lunges 3 × 20s / 40s rest, or step-switch version if low on energy.' },
+        { time: 'Evening', label: 'Burn-out', exercises: 'Speed squats 3 × 40s / 20s rest → skater bounds 3 × 30s / 30s rest.' },
+      ]
+    },
+    {
+      day: 'Wednesday', focus: 'Pull Muscles (Back & Biceps)',
+      original: 'P90X "Back & Biceps" (50 min)',
+      optA: [
+        { name: 'Wide-grip pull-up', sets: '4 × max / 90s rest', note: 'This is the anchor exercise — log your reps' },
+        { name: 'Chin-up (supinated / underhand)', sets: '3 × max / 90s rest', note: 'Palms face you — strongest bicep recruiter on the bar' },
+        { name: 'Band pull-aparts', sets: '3 × 15 reps / 15s rest', note: 'Between pull-up sets — keeps shoulders healthy' },
+        { name: 'Neutral-grip pull-up (or close-grip)', sets: '2 × max / 60s rest', note: 'Hands facing each other — hardest on lats' },
+        { name: 'Band face pull (to forehead)', sets: '2 × 15 reps / 20s rest', note: 'Critical rear-delt work — do not skip' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Pull-up quality', exercises: 'Pull-ups: 6 × 3 reps, 60s rest. "Grease the groove" — never go to failure.' },
+        { time: 'Midday', label: 'Chin-up focus', exercises: 'Chin-ups 4 × max reps / 90s rest. Supinated grip, full range — dead hang (straight arms, passive hang) at bottom.' },
+        { time: 'Evening', label: 'Band accessory', exercises: 'Band pull-aparts 3 × 15 → band face pull 3 × 15. Shoulder health + rear delts.' },
+      ]
+    },
+    {
+      day: 'Thursday', focus: 'MMA-Style Cardio',
+      original: 'P90X3 "MMX" (30 min)',
+      optA: [
+        { name: 'Shadow boxing jab-cross', sets: '3 × 40s / 20s rest', note: 'Pivot hips, keep guard up — toddler LOVES this' },
+        { name: 'Sprawl (standing to plank)', sets: '3 × 30s / 30s rest', note: 'Jump feet back to plank, jump back up' },
+        { name: 'Round kick simulation (slow)', sets: '2 × 30s each side', note: 'Chamber → extend → return — great hip mobility' },
+        { name: 'Bear crawl (forward + back)', sets: '2 × 30s / 30s rest', note: 'Knees 1 inch off floor, move hands + feet' },
+        { name: 'Jab-cross-squat combo', sets: '3 × 40s / 20s rest', note: 'Throw 2 punches, drop into squat, repeat' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Boxing wake-up', exercises: 'Shadow boxing jab-cross 3 × 45s / 15s rest — gets the blood moving.' },
+        { time: 'Midday', label: 'Combat cardio', exercises: 'Sprawls 3 × 30s → jab-cross-squat 3 × 40s. Full body, no equipment.' },
+        { time: 'Evening', label: 'Kicks + crawls', exercises: 'Round kick simulation 30s each side → bear crawl 2 × 30s.' },
+      ]
+    },
+    {
+      day: 'Friday', focus: 'Lower Body + Back + Core',
+      original: 'P90X "Legs & Back" + Ab Ripper X (76 min)',
+      optA: [
+        { name: 'Wide-grip pull-up', sets: '3 × max / 90s rest', note: 'Start fresh — do pulls before legs fatigue you' },
+        { name: 'Band Romanian deadlift', sets: '4 × 10 reps / 30s rest', note: 'Hinge, feel stretch in hamstrings, drive hips forward' },
+        { name: 'Chin-up (supinated)', sets: '2 × max / 60s rest', note: 'Second pull-up variation — different lat angle' },
+        { name: 'Sumo squat pulse', sets: '3 × 45s / 15s rest', note: 'Wide stance (wider than shoulders), toes pointed out. Sink down and pulse in small up-down movements at the bottom — never fully standing.' },
+        { name: 'Superman + Y raise', sets: '3 × 12 reps / 20s rest', note: 'Posterior chain — arms from overhead to Y at top' },
+        { name: 'Reverse crunch', sets: '3 × 12 reps / 15s rest', note: 'Press lower back flat, lift hips off floor' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Pull-up block', exercises: 'Pull-ups 3 × max + chin-ups 3 × max. 90s rest. Best output when fresh.' },
+        { time: 'Afternoon', label: 'Leg work', exercises: 'Band RDL 4 × 10 → sumo squat pulse 3 × 45s. Superset, 20s rest.' },
+        { time: 'Evening', label: 'Back + core', exercises: 'Superman Y-raise 3 × 12 → reverse crunch 3 × 12 → L-hang (legs up to 90° on bar) 2 × 15s.' },
+      ]
+    },
+    {
+      day: 'Sat / Sun', focus: 'Active Recovery (Optional)',
+      original: 'X Stretch / Dynamix / Yoga (30–60 min)',
+      optA: [
+        { name: 'Hip 90/90 stretch', sets: '60s each side', note: 'Sit on floor, both knees at 90° — amazing for hips' },
+        { name: 'Downward dog walk-outs', sets: '5 reps', note: 'Pedal heels, walk feet to hands, roll up' },
+        { name: 'Couch stretch (hip flexor)', sets: '60s each side', note: 'Foot on couch behind you — deep hip flexor' },
+        { name: 'Thread-the-needle (thoracic)', sets: '8 reps each side', note: 'From all-fours, thread arm under body' },
+        { name: 'Lying spinal twist', sets: '60s each side', note: 'Knees stacked, top knee to floor, arms out' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Hip mobility', exercises: '90/90 stretch 60s each + couch stretch 60s each — do while coffee brews.' },
+        { time: 'Anytime', label: 'Thoracic flow', exercises: 'Thread-the-needle 8 each + downward dog walk-outs 5 reps.' },
+        { time: 'Evening', label: 'Full release', exercises: 'Lying spinal twist 60s each → legs-up-wall 5 min. Pre-sleep ritual.' },
+      ]
+    },
+  ],
+  3: [
+    {
+      day: 'Monday', focus: 'Upper Body Push/Pull + Core (Peak)',
+      original: 'P90X "Chest & Back" + Ab Ripper X (70 min)',
+      optA: [
+        { name: 'Pull-up → push-up superset', sets: '4 × (max + 10) / 45s rest', note: 'Zero rest between exercises. This is the core of Chest & Back.' },
+        { name: 'Wide-grip pull-up (slow negative)', sets: '3 × 5 reps / 60s rest', note: '4-second lower — maximum muscle damage, minimum reps' },
+        { name: 'Chin-up → pike push-up superset', sets: '3 × (max + 8) / 30s rest', note: 'Biceps + shoulders in one go' },
+        { name: 'Decline push-up (feet elevated)', sets: '3 × max / 20s rest', note: 'Feet on couch or step — upper chest emphasis' },
+        { name: 'L-sit or tuck hold on bar', sets: '3 × 15–20s / 20s rest', note: 'Hang from bar, raise legs straight to 90° (L-sit) or pull knees to chest (tuck). Brutal for core and lats together.' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Pull peak', exercises: 'Pull-up slow negatives 4 × 5 reps (4s down). 60s rest. High quality only.' },
+        { time: 'Midday', label: 'Push peak', exercises: 'Push-up + decline push-up superset: 4 × (10 + 6). 30s rest. Max output.' },
+        { time: 'Evening', label: 'Chin-up + core', exercises: 'Chin-ups 3 × max → L-sit or tuck hold on bar (legs up or knees to chest while hanging) 3 × 15s → banana hold 3 × 25s.' },
+      ]
+    },
+    {
+      day: 'Tuesday', focus: 'High-Intensity Lower Body',
+      original: 'P90X "Plyometrics" or P90X3 "Complex Lower" (30–59 min)',
+      optA: [
+        { name: 'Jump squat (full depth)', sets: '4 × 30s / 30s rest', note: 'Arm swing for height — maximum power' },
+        { name: 'Alternating jump lunge', sets: '4 × 20s / 40s rest', note: 'Push off back foot, drive knee up' },
+        { name: 'Burpee (no push-up)', sets: '3 × 30s / 30s rest', note: 'Feet jump back, stand and jump — peak HR' },
+        { name: 'Speed skater bounds', sets: '3 × 30s / 30s rest', note: 'Wide lateral leaps, touch floor, bound' },
+        { name: 'Tuck jump', sets: '3 × 20s / 40s rest', note: 'Pull knees to chest at top' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Explosive power', exercises: 'Jump squat 4 × 30s / 30s rest → jump lunge 4 × 20s / 40s rest. Pure intensity.' },
+        { time: 'Midday', label: 'Conditioning', exercises: 'Burpees 3 × 30s / 30s → speed skaters 3 × 30s / 30s. Heart rate challenge.' },
+        { time: 'Evening', label: 'Power finisher', exercises: 'Tuck jumps 3 × 20s / 40s rest OR jump squat 2 × max effort. Then stretch.' },
+      ]
+    },
+    {
+      day: 'Wednesday', focus: 'Shoulders & Arms (Definition Focus)',
+      original: 'P90X "Shoulders & Arms" (60 min)',
+      optA: [
+        { name: 'Band lateral raise', sets: '3 × 15 reps / 15s rest', note: 'Perfect form, stop at shoulder, slow lower (3s)' },
+        { name: 'Band front raise', sets: '3 × 12 reps / 15s rest', note: 'Alternate arms or both — keep torso still' },
+        { name: 'Band bicep curl (slow negative)', sets: '4 × 10 reps / 20s rest', note: '4-second lower — more muscle in less reps' },
+        { name: 'Band tricep overhead extension', sets: '3 × 12 reps / 20s rest', note: 'Band behind head, extend upward slowly' },
+        { name: 'Chair dip (peak contraction)', sets: '3 × 10 reps / 30s rest', note: 'Hold 1s at top, squeeze triceps hard' },
+        { name: 'Arnold-style band press', sets: '3 × 10 reps / 20s rest', note: 'Rotate palms in → out as you press overhead' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Shoulder isolation', exercises: 'Band lateral raise 3 × 15 → band front raise 3 × 12 → Arnold press 3 × 10.' },
+        { time: 'Midday', label: 'Bicep focus', exercises: 'Band curl slow-negative 4 × 10 / 20s rest.' },
+        { time: 'Evening', label: 'Tricep detail', exercises: 'Band overhead extension 3 × 12 → chair dips 3 × 10 (hold at top 1s each rep).' },
+      ]
+    },
+    {
+      day: 'Thursday', focus: 'Agility & Conditioning',
+      original: 'P90X3 "Agility X" (30 min)',
+      optA: [
+        { name: 'Lateral shuffle + stop', sets: '3 × 30s / 30s rest', note: 'Decelerate hard at each end — quickness' },
+        { name: 'High knees (fast)', sets: '3 × 20s / 40s rest', note: 'Arms pump opposite to legs, stay on balls of feet' },
+        { name: 'Quick feet + direction change', sets: '3 × 30s / 30s rest', note: 'Mark a 2m line, sprint side to side touching' },
+        { name: 'Standing broad jump', sets: '3 × 5 reps / 30s rest', note: 'Two-foot takeoff, land softly, stick it' },
+        { name: 'Agility T-drill (furniture markers)', sets: '4 reps / 30s rest', note: 'Sprint → shuffle → shuffle → backpedal' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Footwork', exercises: 'Lateral shuffle 3 × 30s → quick feet + change 3 × 30s. Fun in the living room.' },
+        { time: 'Midday', label: 'Speed + power', exercises: 'High knees 3 × 20s → broad jump 3 × 5 reps. Explosive, short, sharp.' },
+        { time: 'Evening', label: 'Drill work', exercises: 'T-drill 4 reps → lateral shuffle 3 × 30s. Finish with 60s easy march.' },
+      ]
+    },
+    {
+      day: 'Friday', focus: 'Lower Body + Back + Core (Peak)',
+      original: 'P90X "Legs & Back" + Ab Ripper X (76 min)',
+      optA: [
+        { name: 'Wide-grip pull-up (max effort)', sets: '4 × max / 90s rest', note: 'Log your numbers — this is your peak-phase benchmark' },
+        { name: 'Chin-up (slow negative)', sets: '3 × 5 / 60s rest', note: '4-sec lower, supinated grip — bicep + lat hypertrophy' },
+        { name: 'Heavy band squat', sets: '4 × 12 reps / 30s rest', note: 'Band under feet, loop to shoulders — add load' },
+        { name: 'Wall sit hold', sets: '3 × 40s / 30s rest', note: '90° at knees — isometric quad burn' },
+        { name: 'L-hang or tuck hang', sets: '3 × 20s / 20s rest', note: 'Hang from bar, raise legs to 90° (L) or pull knees to chest (tuck). Decompresses the spine after squats.' },
+        { name: 'Bicycle crunch (slow)', sets: '3 × 45s / 15s rest', note: 'Elbow to knee, hold 1s, extend opposite leg long' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Peak pull block', exercises: 'Pull-ups 4 × max + chin-up negatives 3 × 5. Full 90s rest. Go all out.' },
+        { time: 'Afternoon', label: 'Heavy legs', exercises: 'Band squat 4 × 12 → wall sit 3 × 40s. Posterior chain strength.' },
+        { time: 'Evening', label: 'Hang + core', exercises: 'L-hang (legs up to 90° while hanging) 3 × 20s → bicycle crunch 3 × 45s → V-sit hold 3 × 15s.' },
+      ]
+    },
+    {
+      day: 'Sat / Sun', focus: 'Active Recovery (Optional)',
+      original: 'X Stretch / Dynamix / Yoga (30–60 min)',
+      optA: [
+        { name: 'Foam roll or tennis ball', sets: '5–8 min', note: 'Quads, IT band, upper back, calves' },
+        { name: 'Pigeon pose (floor)', sets: '90s each side', note: 'Deep hip opener — critical after week of plyos' },
+        { name: 'Doorway chest stretch', sets: '60s each arm position', note: 'Low, mid, and high arm — 3 positions' },
+        { name: 'Seated hamstring stretch', sets: '60s each side', note: 'Flex foot, reach forward without rounding back' },
+        { name: 'Neck + shoulder mobility', sets: '3–5 min', note: 'Ear to shoulder, chin tucks, shoulder circles' },
+      ],
+      optB: [
+        { time: 'Morning', label: 'Hip reset', exercises: 'Pigeon pose 90s each + lying spinal twist 60s each — major tension release.' },
+        { time: 'Anytime', label: 'Upper body reset', exercises: 'Doorway chest stretch 3 positions + neck mobility 3–5 min.' },
+        { time: 'Evening', label: 'Full release', exercises: 'Hamstring stretch 60s each → legs-up-wall 5 min → deep breathing 2 min.' },
+      ]
+    },
+  ]
+};
+
+// Option C data
+const optCData = {
+  1: {
+    subtitle: 'Learn the patterns. Compound loading. Build the base.',
+    blocks: [
+      { name: 'Warm-Up', duration: '5 min', color: 'warmup', rows: [
+        { name: 'Dead hang', sets: '2 × 20s / 15s rest', note: 'Hang from bar, arms straight, no movement. Wakes up shoulders and primes grip.' },
+        { name: 'World\'s greatest stretch', sets: '4 reps each side', note: 'Step forward, elbow to ground, rotate up — hip flexor + thoracic in one move' },
+        { name: 'Band pull-aparts', sets: '2 × 10 reps / 15s rest', note: 'Prime the shoulder girdle before pulling' },
+      ]},
+      { name: 'Block A — Pull Strength', duration: '15 min', color: 'pull', rows: [
+        { name: 'Pull-up (wide grip)', sets: '5 × max / 90s rest', note: 'Log every set. This is your north star metric.' },
+        { name: 'Chin-up (supinated)', sets: '3 × max / 90s rest', note: 'Palms face you. Full hang at bottom each rep.' },
+        { name: 'Band pull-apart (between sets)', sets: '15 reps each rest period', note: 'No extra time cost — do during pull-up rest' },
+      ]},
+      { name: 'Block B — Push + Legs', duration: '20 min', color: 'push', rows: [
+        { name: 'Push-up → squat superset', sets: '4 × (15 + 15) / 30s rest', note: 'Zero rest between push and squat. Upper + lower in one go.' },
+        { name: 'Pike push-up → reverse lunge', sets: '3 × (10 + 10 each) / 30s rest', note: 'Shoulders + glutes together' },
+        { name: 'Band Romanian deadlift', sets: '4 × 12 reps / 30s rest', note: 'Full hip hinge — most underrated movement pattern' },
+        { name: 'Eccentric squat (5-sec down)', sets: '3 × 8 reps / 45s rest', note: 'More muscle work per rep than any jump' },
+      ]},
+      { name: 'Block C — Core + Conditioning', duration: '15 min', color: 'cond', rows: [
+        { name: 'L-hang or tuck hang on bar', sets: '3 × 20s / 20s rest', note: 'Hang from bar, raise legs to 90° (L) or knees to chest (tuck). Hanging core that also decompresses the spine.' },
+        { name: 'Bicycle crunch (slow)', sets: '3 × 45s / 15s rest', note: '1-second hold at full rotation each rep' },
+        { name: 'Mountain climbers → banana hold', sets: '3 × (30s + 20s) / 15s rest', note: 'Cardio + static core back to back' },
+        { name: 'Burpee to pull-up (or jump)', sets: '3 × 8 reps / 45s rest', note: 'Jump, grab bar, pull. Best bodyweight conditioning with a bar.' },
+      ]},
+      { name: 'Cool-Down', duration: '5 min', color: 'cool', rows: [
+        { name: 'Pigeon pose or 90/90 hip stretch', sets: '60s each side', note: 'Non-negotiable after lower body volume' },
+        { name: 'Doorway chest stretch', sets: '45s each side', note: 'Undo the push-up shoulder tightness' },
+        { name: 'Legs-up-the-wall', sets: '2–3 min', note: 'End every session here if possible' },
+      ]},
+    ]
+  },
+  2: {
+    subtitle: 'More load. Less rest. Higher volume. Supersets throughout.',
+    blocks: [
+      { name: 'Warm-Up', duration: '5 min', color: 'warmup', rows: [
+        { name: 'Dead hang → scapular pull-ups', sets: '2 × 8 scap pulls', note: 'Dead hang: passive straight-arm hang. Then retract shoulder blades without bending elbows — primes the lats.' },
+        { name: 'Hip 90/90 flow', sets: '4 transitions each side', note: 'Rotate between front and rear 90/90 positions' },
+        { name: 'Band face pulls', sets: '2 × 15 reps / 15s rest', note: 'Rear delt activation — protect the shoulder' },
+      ]},
+      { name: 'Block A — Pull Strength (Volume Up)', duration: '15 min', color: 'pull', rows: [
+        { name: 'Pull-up (weighted with backpack if possible)', sets: '4 × max / 90s rest', note: 'Add a book to a backpack if you can. Even 2kg changes the stimulus.' },
+        { name: 'Chin-up slow negative (4-sec lower)', sets: '4 × 5 / 60s rest', note: 'Most time-under-tension per rep possible on a bar' },
+        { name: 'Neutral-grip pull-up (close grip)', sets: '3 × max / 60s rest', note: 'Hands facing each other — deepest lat stretch at bottom' },
+      ]},
+      { name: 'Block B — Push + Legs (Supersets)', duration: '22 min', color: 'push', rows: [
+        { name: 'Decline push-up → jump squat superset', sets: '4 × (12 + 8) / 30s rest', note: 'Feet on couch. Upper chest + explosive power together.' },
+        { name: 'Pike push-up → jump lunge superset', sets: '3 × (10 + 10) / 30s rest', note: 'Shoulders + legs. Alternate legs on lunges.' },
+        { name: 'Band squat (under feet → looped to shoulders)', sets: '4 × 15 reps / 20s rest', note: 'Biggest lower body bang without weights' },
+        { name: 'Single-leg RDL → glute bridge', sets: '3 × (10 reps each leg + 40s) / 20s rest', note: '10 RDLs each leg then 40s glute bridge. Balance + posterior chain.' },
+      ]},
+      { name: 'Block C — HIIT + Core', duration: '13 min', color: 'cond', rows: [
+        { name: 'Burpee to pull-up', sets: '4 × 6 reps / 45s rest', note: 'The best bodyweight conditioning exercise with a bar. Jump up, grab, pull, drop, repeat.' },
+        { name: 'Skater bounds', sets: '3 × 30s / 30s rest', note: 'Lateral power + cardiovascular challenge' },
+        { name: 'L-hang → bicycle crunch superset', sets: '3 × (20s + 45s) / 20s rest', note: 'L-hang: legs up to 90° on bar. Then to floor for bicycle crunches — 65s continuous core.' },
+      ]},
+      { name: 'Cool-Down', duration: '5 min', color: 'cool', rows: [
+        { name: 'Couch stretch (hip flexor)', sets: '60s each side', note: 'After jump volume this is critical — don\'t skip' },
+        { name: 'Thread-the-needle thoracic rotation', sets: '8 reps each side', note: 'Undo the spinal compression from HIIT' },
+        { name: 'Child\'s pose', sets: '90s', note: 'Breathe into the lower back. You earned it.' },
+      ]},
+    ]
+  },
+  3: {
+    subtitle: 'Maximum effort. Full capacity. Leave nothing.',
+    blocks: [
+      { name: 'Warm-Up', duration: '5 min', color: 'warmup', rows: [
+        { name: 'Scapular pull-ups + dead hang', sets: '2 × 10 reps + 30s hang', note: 'Dead hang: passive straight-arm hang. Scap pull-ups: retract shoulder blades without bending elbows. Together they prime the entire pulling chain.' },
+        { name: 'Banded hip warm-up flow', sets: '8 reps each movement', note: 'Squat + lunge + hinge — activate everything you\'re about to use' },
+        { name: 'Jumping jacks + arm swings', sets: '60s continuous', note: 'Elevate heart rate before going hard' },
+      ]},
+      { name: 'Block A — Peak Pull Strength', duration: '16 min', color: 'pull', rows: [
+        { name: 'Pull-up max effort test', sets: 'Absolute max reps', note: 'First set of the session, completely fresh. Log this. It\'s your peak-phase benchmark.' },
+        { name: 'Pull-up → push-up superset', sets: '4 × (max + 15) / 45s rest', note: 'This is the real Chest & Back. Alternate with zero rest between.' },
+        { name: 'Chin-up slow negative (5-sec lower)', sets: '3 × 5 reps / 60s rest', note: 'After the superset volume — pure time-under-tension' },
+      ]},
+      { name: 'Block B — Power Lower + Push', duration: '20 min', color: 'push', rows: [
+        { name: 'Jump squat → decline push-up superset', sets: '4 × (10 + 12) / 30s rest', note: 'Explosive lower + upper. Full effort both moves.' },
+        { name: 'Tuck jump → pike push-up superset', sets: '3 × (8 + 10) / 30s rest', note: 'Peak power + shoulder strength. Short rest by design.' },
+        { name: 'Wall sit (isometric hold)', sets: '3 × 45s / 30s rest', note: 'After the jumps, this burns differently.' },
+        { name: 'Band squat (loaded)', sets: '3 × 15 reps / 20s rest', note: 'Metabolic finisher for the legs — fast tempo' },
+      ]},
+      { name: 'Block C — Peak Conditioning', duration: '14 min', color: 'cond', rows: [
+        { name: 'Burpee to pull-up (max effort)', sets: '5 × 5 reps / 45s rest', note: 'Jump, grab bar, pull. Peak full-body conditioning. Nothing harder with this equipment.' },
+        { name: 'Speed skater bounds', sets: '3 × 30s / 30s rest', note: 'Lateral power + cardiovascular peak' },
+        { name: 'L-hang or tuck hang', sets: '3 × 25s / 15s rest', note: 'Legs straight to 90° (L) or knees pulled to chest (tuck). Harder than it looks — peak core demand.' },
+        { name: 'V-sit hold', sets: '3 × 20s / 15s rest', note: 'Finish on the floor. Core completely cooked.' },
+      ]},
+      { name: 'Cool-Down', duration: '5 min', color: 'cool', rows: [
+        { name: 'Pigeon pose', sets: '90s each side', note: 'Non-negotiable after peak plyometric volume' },
+        { name: 'Doorway chest stretch (3 positions)', sets: '30s each position', note: 'Low, mid, high — full pec release' },
+        { name: 'Legs-up-the-wall + deep breathing', sets: '3–5 min', note: 'Activates parasympathetic recovery. Best 5 min you can spend post-session.' },
+      ]},
+    ]
+  }
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+
+let activePhase = 1;
+let activeDay = {};   // { [phase]: dayIndex }
+let activeOpt = {};   // { [phase]: { [dayIdx]: 'A'|'B' } }
+let activeOptCPhase = 1;
+
+// Init state
+[1,2,3].forEach(p => {
+  activeDay[p] = 0;
+  activeOpt[p] = {};
+  data[p].forEach((_, i) => { activeOpt[p][i] = 'A'; });
+});
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+
+function renderAll() {
+  [1,2,3].forEach(p => renderPhase(p));
+  [1,2,3].forEach(p => renderOptCPhase(p));
+}
+
+function renderPhase(phase) {
+  const container = document.getElementById(`phase-${phase}`);
+  const dayIdx = activeDay[phase];
+  const day = data[phase][dayIdx];
+  const opt = activeOpt[phase][dayIdx];
+
+  const phaseColors = { 1: 'var(--p1)', 2: 'var(--p2)', 3: 'var(--p3)' };
+  const phaseBadges = {
+    1: 'Phase 1 · Weeks 1–4 · Foundation',
+    2: 'Phase 2 · Weeks 5–8 · Intensification',
+    3: 'Phase 3 · Weeks 9–12 · Peak'
+  };
+
+  // Day nav
+  const dayBtns = DAYS.map((d, i) => `
+    <button class="day-btn ${i === dayIdx ? 'active' : ''}" onclick="setDay(${phase}, ${i})">${d}</button>
+  `).join('');
+
+  // A/B toggle
+  const toggle = `
+    <div class="ab-toggle">
+      <button class="ab-btn ${opt === 'A' ? 'active-a' : ''}" onclick="setOpt(${phase}, ${dayIdx}, 'A')">⚡ Option A</button>
+      <button class="ab-btn ${opt === 'B' ? 'active-b' : ''}" onclick="setOpt(${phase}, ${dayIdx}, 'B')">🕐 Option B</button>
+    </div>
+  `;
+
+  // Content
+  let content = '';
+  if (opt === 'A') {
+    // Split exercises into two halves for the 2-col grid
+    const exercises = day.optA;
+    const mid = Math.ceil(exercises.length / 2);
+    const left = exercises.slice(0, mid);
+    const right = exercises.slice(mid);
+
+    const makeRows = (exList) => exList.map(ex => `
+      <tr>
+        <td>
+          <div class="ex-name">${ex.name}</div>
+          ${ex.note ? `<div class="ex-note">${ex.note}</div>` : ''}
+        </td>
+        <td class="ex-sets">${ex.sets}</td>
+      </tr>
+    `).join('');
+
+    const makeTable = (exList) => `
+      <div class="table-wrap">
+        <table class="workout-table">
+          <thead><tr><th>Exercise</th><th style="text-align:right">Sets / Time</th></tr></thead>
+          <tbody>${makeRows(exList)}</tbody>
+        </table>
+      </div>
+    `;
+
+    content = `
+      <div class="panel-label panel-label-a">Single Session · 10–14 min</div>
+      <div class="day-content-wide">
+        ${makeTable(left)}
+        ${right.length ? makeTable(right) : '<div></div>'}
+      </div>
+    `;
+  } else {
+    const rows = day.optB.map(s => `
+      <tr>
+        <td class="session-time">${s.time}</td>
+        <td class="session-label">${s.label}</td>
+        <td class="session-exercises">${s.exercises}</td>
+      </tr>
+    `).join('');
+    content = `
+      <div class="panel-label panel-label-b">Distributed Sessions · 3–5 min each</div>
+      <div class="table-wrap">
+        <table class="optb-table">
+          <thead><tr><th>When</th><th>Focus</th><th>What to do</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  // Start session button only for Option A
+  const startBtn = opt === 'A'
+    ? `<div style="margin-top:28px"><button class="t-start-btn" onclick="startSession(${phase},${dayIdx})">▶ Start Session</button></div>`
+    : '';
+
+  container.innerHTML = `
+    <div class="phase-badge">${phaseBadges[phase]}</div>
+    <div class="day-nav">${dayBtns}</div>
+    <div class="day-header">
+      <div class="day-label">${day.day}</div>
+      <div class="day-focus">${day.focus}</div>
+      <div class="day-original">↩ ${day.original}</div>
+    </div>
+    ${toggle}
+    ${content}
+    ${startBtn}
+  `;
+}
+
+function renderOptCPhase(phase) {
+  const container = document.getElementById(`optc-phase-${phase}`);
+  const d = optCData[phase];
+  const blocks = d.blocks.map(block => {
+    const rows = block.rows.map(r => `
+      <tr>
+        <td>
+          <div class="ex-name">${r.name}</div>
+          ${r.note ? `<div class="ex-note">${r.note}</div>` : ''}
+        </td>
+        <td class="ex-sets" style="color:var(--optC)">${r.sets}</td>
+      </tr>
+    `).join('');
+    return `
+      <div class="optc-block">
+        <div class="optc-block-header">
+          <div class="optc-block-name" data-color="${block.color}">${block.name}</div>
+          <div class="optc-block-duration">${block.duration}</div>
+        </div>
+        <table class="optc-table workout-table">
+          <thead><tr><th>Exercise</th><th style="text-align:right">Sets / Time</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <p style="color:var(--muted);font-size:0.9rem;margin-bottom:20px;font-style:italic;">${d.subtitle}</p>
+    <div class="optc-blocks-grid">${blocks}</div>
+  `;
+}
+
+// ── CONTROLLERS ───────────────────────────────────────────────────────────────
+
+function toggleOptC() {
+  const section = document.getElementById('option-c');
+  const btn = document.getElementById('optc-toggle-btn');
+  const isVisible = section.classList.contains('visible');
+
+  if (isVisible) {
+    section.classList.remove('visible');
+    btn.classList.remove('open');
+    btn.textContent = '⚡ Option C — Power Hour';
+  } else {
+    section.classList.add('visible');
+    btn.classList.add('open');
+    btn.textContent = '✕ Hide Option C';
+    setTimeout(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
+}
+
+function setPhase(phase) {
+  activePhase = phase;
+
+  // Header tabs
+  document.querySelectorAll('.phase-tab').forEach(t => {
+    t.classList.toggle('active', parseInt(t.dataset.phase) === phase);
+  });
+
+  // Phase panels
+  document.querySelectorAll('.phase-panel').forEach(p => {
+    p.classList.toggle('active', p.id === `phase-${phase}`);
+  });
+}
+
+function setDay(phase, dayIdx) {
+  activeDay[phase] = dayIdx;
+  renderPhase(phase);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setOpt(phase, dayIdx, opt) {
+  activeOpt[phase][dayIdx] = opt;
+  renderPhase(phase);
+}
+
+function setOptCPhase(phase) {
+  activeOptCPhase = phase;
+  document.querySelectorAll('.optc-phase-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.cphase) === phase);
+  });
+  document.querySelectorAll('.optc-phase-panel').forEach(p => {
+    p.classList.toggle('active', p.id === `optc-phase-${phase}`);
+  });
+}
+
+// ── TIMER ─────────────────────────────────────────────────────────────────────
+
+// Parse a sets string like "3 × 45s / 15s rest" → { sets, duration, rest, isReps }
+function parseExercise(ex) {
+  const s = ex.sets;
+
+  // Extract rest duration in seconds (e.g. "/ 30s rest", "/ 60s rest")
+  const restMatch = s.match(/\/\s*(\d+)s\s*rest/i);
+  const restSecs = restMatch ? parseInt(restMatch[1]) : 30;
+
+  // Extract number of sets (e.g. "3 ×", "4 ×", "2 ×")
+  const setsMatch = s.match(/^(\d+)\s*[×x]/);
+  const numSets = setsMatch ? parseInt(setsMatch[1]) : 1;
+
+  // Extract duration in seconds — handle ranges like "20–30s" by taking the upper value
+  const beforeSlash = s.split('/')[0];
+  // Match "× 20s" or "× 20–30s" (take last number in range)
+  const durMatch = beforeSlash.match(/×\s*(?:\d+[–\-])?(\d+)s/i);
+  let durSecs = null;
+  if (durMatch) durSecs = parseInt(durMatch[1]);
+
+  // Standalone minute values like "2 min", "5–8 min" (take upper)
+  const minMatch = s.match(/^(?:\d+[–\-])?(\d+)\s*min/i);
+  if (minMatch && durSecs === null) durSecs = parseInt(minMatch[1]) * 60;
+
+  // Single time like "90s each side" or range "60–90s" (take upper)
+  const singleSec = s.match(/^(?:\d+[–\-])?(\d+)s\b/i);
+  if (singleSec && durSecs === null) durSecs = parseInt(singleSec[1]);
+
+  const isReps = durSecs === null;
+
+  return { numSets, durSecs, restSecs, isReps };
+}
+
+// Build a flat sequence of steps from one day's optA exercises
+function buildSequence(exercises) {
+  const steps = [];
+  const totalExercises = exercises.length;
+  exercises.forEach((ex, exIdx) => {
+    const { numSets, durSecs, restSecs, isReps } = parseExercise(ex);
+    for (let s = 0; s < numSets; s++) {
+      const isLastSet = s === numSets - 1;
+      const isLastEx  = exIdx === exercises.length - 1;
+
+      // Exercise step
+      steps.push({
+        type: 'exercise',
+        name: ex.name,
+        note: ex.note || '',
+        sets: ex.sets,
+        setLabel: numSets > 1 ? `Set ${s+1} of ${numSets}` : '',
+        durSecs,
+        isReps,
+        exIndex: exIdx,          // which exercise (0-based)
+        totalExercises,          // total unique exercises
+      });
+
+      // Rest step (skip after very last set of very last exercise)
+      if (!(isLastEx && isLastSet)) {
+        const nextExIdx = isLastSet ? exIdx + 1 : exIdx;
+        const nextSetNum = isLastSet ? 0 : s + 1;
+        const nextEx = exercises[nextExIdx];
+        const nextParsed = nextEx ? parseExercise(nextEx) : { numSets: 1, restSecs: 30 };
+
+        // Between different exercises: use the INCOMING exercise's rest time
+        const suggestedRest = isLastSet ? nextParsed.restSecs : restSecs;
+
+        // Show "Set 1 of N" when transitioning to a new multi-set exercise
+        let nextSetLabel = '';
+        if (!isLastSet) {
+          nextSetLabel = `Set ${nextSetNum+1} of ${numSets}`;
+        } else if (nextParsed.numSets > 1) {
+          nextSetLabel = `Set 1 of ${nextParsed.numSets}`;
+        }
+
+        steps.push({
+          type: 'rest',
+          suggestedSecs: suggestedRest,
+          extraSecs: 0,
+          next: {
+            name: nextEx ? nextEx.name : '',
+            sets: nextEx ? nextEx.sets : '',
+            note: nextEx ? (nextEx.note || '') : '',
+            setLabel: nextSetLabel,
+          }
+        });
+      }
+    }
+  });
+  return steps;
+}
+
+// ── Audio engine ──────────────────────────────────────────────────────────────
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function beep(freq, dur, vol = 0.35, type = 'sine', delay = 0) {
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+    gain.gain.setValueAtTime(0, ctx.currentTime + delay);
+    gain.gain.linearRampToValueAtTime(vol, ctx.currentTime + delay + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + dur);
+    osc.start(ctx.currentTime + delay);
+    osc.stop(ctx.currentTime + delay + dur + 0.05);
+  } catch(e) {}
+}
+
+function playTick()       { beep(880, 0.08, 0.25, 'square'); }
+function playRestStart()  { beep(660, 0.12); beep(880, 0.18, 0.4, 'sine', 0.15); }
+function playGoSignal()   { beep(660, 0.1); beep(880, 0.12, 0.45, 'sine', 0.13); beep(1100, 0.22, 0.5, 'sine', 0.27); }
+function playFinish()     { beep(523, 0.15); beep(659, 0.15, 0.45, 'sine', 0.18); beep(784, 0.35, 0.55, 'sine', 0.36); }
+function playReadyCue()   {
+  // 3 ticks to indicate "you could go now"
+  beep(880, 0.07, 0.3, 'square', 0);
+  beep(880, 0.07, 0.3, 'square', 0.18);
+  beep(1100, 0.12, 0.45, 'sine', 0.36);
+}
+
+// ── Timer state ───────────────────────────────────────────────────────────────
+let tSeq       = [];
+let tIdx       = 0;
+let tInterval  = null;
+let tElapsed   = 0;    // seconds elapsed in current exercise step (counts up)
+let tRestEl    = 0;    // seconds elapsed in rest (counts up)
+let tRestCueFired = false;
+let tPhaseColor = 'var(--p1)';
+let tActiveExHandler = null;   // track exercise tap handler for cleanup
+let tActiveRestHandler = null; // track rest tap handler for cleanup
+
+// ── DOM helpers ───────────────────────────────────────────────────────────────
+const overlay      = () => document.getElementById('timer-overlay');
+const exView       = () => document.getElementById('t-exercise-view');
+const restView     = () => document.getElementById('t-rest-view');
+const doneView     = () => document.getElementById('t-done-view');
+const topLabel     = () => document.getElementById('t-topbar-label');
+const progressTxt  = () => document.getElementById('t-progress-txt');
+
+function cleanupHandlers() {
+  if (tActiveExHandler) {
+    exView().removeEventListener('click', tActiveExHandler);
+    tActiveExHandler = null;
+  }
+  if (tActiveRestHandler) {
+    document.querySelector('.t-rest-body').removeEventListener('click', tActiveRestHandler);
+    tActiveRestHandler = null;
+  }
+}
+
+function showView(which) {
+  cleanupHandlers();
+  exView().classList.toggle('t-show', which === 'ex');
+  restView().classList.toggle('t-show', which === 'rest');
+  doneView().classList.toggle('t-show', which === 'done');
+  // Always reset countdown when switching views
+  document.getElementById('t-countdown').classList.remove('t-show');
+}
+
+// ── Wake Lock (prevent screen sleep) ──────────────────────────────────────────
+// On mobile Chrome, Wake Lock API and video autoplay both require a user gesture.
+// We initialize on the FIRST tap/click, then keep it alive with periodic renewal.
+
+let wakeLock = null;
+let wakeLockRenewal = null;
+let wakeLockReady = false;
+
+async function requestWakeLock() {
+  // Try Wake Lock API (requires secure context: HTTPS or localhost)
+  if ('wakeLock' in navigator) {
+    try {
+      if (wakeLock) { try { await wakeLock.release(); } catch(e) {} wakeLock = null; }
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => {
+        wakeLock = null;
+        if (!document.hidden) {
+          setTimeout(() => { if (!wakeLock && wakeLockReady) requestWakeLock(); }, 200);
+        }
+      });
+      return; // API worked, no need for fallback
+    } catch(e) {}
+  }
+  // Fallback: silent video (must be started from user gesture context)
+  startVideoFallback();
+}
+
+function startVideoFallback() {
+  let v = document.getElementById('wl-video');
+  if (!v) {
+    v = document.createElement('video');
+    v.id = 'wl-video';
+    v.setAttribute('playsinline', '');
+    v.setAttribute('muted', '');
+    v.muted = true;
+    v.loop = true;
+    v.style.cssText = 'position:fixed;top:-1px;left:-1px;width:1px;height:1px;opacity:0;pointer-events:none';
+    // Tiny base64 mp4 (silent, 1-frame)
+    v.src = 'data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAs1tZGF0AAACrgYF//+q3EXpvebZSLeWLNgg2SPu73gyNjQgLSBjb3JlIDE0OCByMjYwMSBhMGNkN2QzIC0gSC4yNjQvTVBFRy00IEFWQyBjb2RlYyAtIENvcHlsZWZ0IDIwMDMtMjAxNSAtIGh0dHA6Ly93d3cudmlkZW9sYW4ub3JnL3gyNjQuaHRtbCAtIG9wdGlvbnM6IGNhYmFjPTEgcmVmPTMgZGVibG9jaz0xOjA6MCBhbmFseXNlPTB4MzoweDExMyBtZT1oZXggc3VibWU9NyBwc3k9MSBwc3lfcmQ9MS4wMDowLjAwIG1peGVkX3JlZj0xIG1lX3JhbmdlPTE2IGNocm9tYV9tZT0xIHRyZWxsaXM9MSA4eDhkY3Q9MSBjcW09MCBkZWFkem9uZT0yMSwxMSBmYXN0X3Bza2lwPTEgY2hyb21hX3FwX29mZnNldD0tMiB0aHJlYWRzPTEgbG9va2FoZWFkX3RocmVhZHM9MSBzbGljZWRfdGhyZWFkcz0wIG5yPTAgZGVjaW1hdGU9MSBpbnRlcmxhY2VkPTAgYmx1cmF5X2NvbXBhdD0wIGNvbnN0cmFpbmVkX2ludHJhPTAgYmZyYW1lcz0zIGJfcHlyYW1pZD0yIGJfYWRhcHQ9MSBiX2JpYXM9MCBkaXJlY3Q9MSB3ZWlnaHRiPTEgb3Blbl9nb3A9MCB3ZWlnaHRwPTIga2V5aW50PTI1MCBrZXlpbnRfbWluPTEwIHNjZW5lY3V0PTQwIGludHJhX3JlZnJlc2g9MCByY19sb29rYWhlYWQ9NDAgcmM9Y3JmIG1idHJlZT0xIGNyZj0yMy4wIHFjb21wPTAuNjAgcXBtaW49MCBxcG1heD02OSBxcHN0ZXA9NCBpcF9yYXRpbz0xLjQwIGFxPTE6MS4wAACAAAAAD2WIhAA3//728P4FNjuZQQAAAu5tb292AAAAbG12aGQAAAAAAAAAAAAAAAAAAAPoAAAAZAABAAABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAACGHRyYWsAAABcdGtoZAAAAAMAAAAAAAAAAAAAAAEAAAAAAAAAZAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAAAAAAgAAAAIAAAAAACRlZHRzAAAAHGVsc3QAAAAAAAAAAQAAAGQAAAAAAAEAAAAAAZBtZGlhAAAAIG1kaGQAAAAAAAAAAAAAAAAAACgAAAAEAFXEAAAAAAAtaGRscgAAAAAAAAAAdmlkZQAAAAAAAAAAAAAAAFZpZGVvSGFuZGxlcgAAAAE7bWluZgAAABR2bWhkAAAAAQAAAAAAAAAAAAAAJGRpbmYAAAAcZHJlZgAAAAAAAAABAAAADHVybCAAAAABAAAA+3N0YmwAAACXc3RzZAAAAAAAAAABAAAAh2F2YzEAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAgACAEgAAABIAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY//8AAAAxYXZjQwFkAAr/4QAYZ2QACqzZX4iIhAAAAwAEAAADAFA8SJZYAQAGaOvjyyLAAAAAGHN0dHMAAAAAAAAAAQAAAAEAAAQAAAAAHHN0c2MAAAAAAAAAAQAAAAEAAAABAAAAAQAAABRzdHN6AAAAAAAAAsUAAAABAAAAFHN0Y28AAAAAAAAAAQAAADAAAABidWR0YQAAAFptZXRhAAAAAAAAACFoZGxyAAAAAAAAAABtZGlyYXBwbAAAAAAAAAAAAAAAAC1pbHN0AAAAJal0b28AAAAdZGF0YQAAAAEAAAAATGF2ZjU2LjQwLjEwMQ==';
+    document.body.appendChild(v);
+  }
+  v.play().catch(() => {});
+}
+
+function stopVideoFallback() {
+  const v = document.getElementById('wl-video');
+  if (v) { v.pause(); v.remove(); }
+}
+
+function releaseWakeLock() {
+  if (wakeLockRenewal) { clearInterval(wakeLockRenewal); wakeLockRenewal = null; }
+  if (wakeLock) { try { wakeLock.release(); } catch(e) {} wakeLock = null; }
+  wakeLockReady = false;
+  stopVideoFallback();
+}
+
+// Initialize wake lock on first user interaction (required by mobile Chrome)
+function initWakeLock() {
+  if (wakeLockReady) return;
+  wakeLockReady = true;
+  requestWakeLock();
+
+  // Periodic renewal every 10s — re-acquire if dropped
+  wakeLockRenewal = setInterval(() => {
+    if (!document.hidden && wakeLockReady) {
+      // Check if wake lock is gone
+      if (!wakeLock || wakeLock.released) {
+        requestWakeLock();
+      }
+      // Also keep video playing if it's our fallback
+      const v = document.getElementById('wl-video');
+      if (v && v.paused) v.play().catch(() => {});
+    }
+  }, 10000);
+}
+
+// Activate on first touch/click (user gesture required for mobile)
+document.addEventListener('click', initWakeLock, { once: false, passive: true });
+document.addEventListener('touchstart', initWakeLock, { once: false, passive: true });
+
+// Re-acquire when tab comes back
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && wakeLockReady) {
+    requestWakeLock();
+    const v = document.getElementById('wl-video');
+    if (v && v.paused) v.play().catch(() => {});
+  }
+});
+document.addEventListener('focus', () => {
+  if (wakeLockReady) requestWakeLock();
+});
+
+// ── Start / Stop ──────────────────────────────────────────────────────────────
+function startSession(phase, dayIdx) {
+  const exercises = data[phase][dayIdx].optA;
+  tSeq = buildSequence(exercises);
+  tIdx = 0;
+  const phaseColors = { 1: 'var(--p1)', 2: 'var(--p2)', 3: 'var(--p3)' };
+  tPhaseColor = phaseColors[phase] || 'var(--p1)';
+
+  // Apply phase color to overlay so all var(--phase-color) references work
+  overlay().style.setProperty('--phase-color', tPhaseColor);
+  overlay().classList.add('t-active');
+  document.body.style.overflow = 'hidden';
+  playGoSignal();
+  runStep(tIdx);
+}
+
+function stopSession() {
+  clearInterval(tInterval);
+  tInterval = null;
+  overlay().classList.remove('t-active', 't-flashing');
+  document.querySelector('.t-topbar').classList.remove('rest-topbar');
+  showView(null);
+  document.body.style.overflow = '';
+  // Wake lock stays active — screen should stay on while viewing the plan
+}
+
+// ── Step runner ───────────────────────────────────────────────────────────────
+function runStep(idx) {
+  clearInterval(tInterval);
+  overlay().classList.remove('t-flashing');
+
+  if (idx >= tSeq.length) {
+    // Done
+    showView('done');
+    const setCount = tSeq.filter(s => s.type === 'exercise').length;
+    const exCount = new Set(tSeq.filter(s => s.type === 'exercise').map(s => s.exIndex)).size;
+    document.getElementById('t-done-sub').textContent =
+      `${exCount} exercises · ${setCount} sets completed`;
+    playFinish();
+    return;
+  }
+
+  const step = tSeq[idx];
+  // Show exercise-level progress (not set-level)
+  const curEx = step.type === 'exercise' ? step : tSeq.slice(0, idx).reverse().find(s => s.type === 'exercise');
+  const exNum = curEx ? curEx.exIndex + 1 : 1;
+  const exTotal = curEx ? curEx.totalExercises : tSeq[0].totalExercises;
+  const setInfo = (step.type === 'exercise' && step.setLabel) ? ` · ${step.setLabel}` : '';
+  progressTxt().textContent = `${exNum} / ${exTotal}${setInfo}`;
+
+  updateNavButtons();
+  if (step.type === 'exercise') {
+    runExercise(step, idx);
+  } else {
+    runRest(step, idx);
+  }
+}
+
+function runExercise(step, idx) {
+  showView('ex');
+  topLabel().textContent = step.setLabel || 'EXERCISE';
+  topLabel().classList.remove('rest-label');
+  document.querySelector('.t-topbar').classList.remove('rest-topbar');
+
+  document.getElementById('t-ex-name').textContent = step.name;
+  document.getElementById('t-ex-note').textContent = step.note;
+
+  // Find next exercise step (skip rest)
+  const nextEx = tSeq.slice(idx + 1).find(s => s.type === 'exercise');
+  const nextRest = tSeq[idx + 1];
+  const upNextName = document.getElementById('t-up-next-name');
+  const upNextSets = document.getElementById('t-up-next-sets');
+
+  if (nextEx) {
+    upNextName.textContent = nextEx.name + (nextEx.setLabel ? ` · ${nextEx.setLabel}` : '');
+    upNextSets.textContent = nextEx.sets;
+    document.getElementById('t-up-next').style.visibility = 'visible';
+  } else {
+    upNextName.textContent = 'Last exercise!';
+    upNextSets.textContent = '';
+    document.getElementById('t-up-next').style.visibility = 'visible';
+  }
+
+  const timedBlock    = document.getElementById('t-timed-block');
+  const repsBlock     = document.getElementById('t-reps-block');
+  const countdownEl   = document.getElementById('t-countdown');
+  const countdownNum  = document.getElementById('t-countdown-num');
+
+  if (step.isReps) {
+    countdownEl.classList.remove('t-show');
+    timedBlock.style.display = 'none';
+    repsBlock.style.display  = 'block';
+    // Tap anywhere on the exercise view to advance
+    tActiveExHandler = () => {
+      exView().removeEventListener('click', tActiveExHandler);
+      tActiveExHandler = null;
+      advanceFromExercise(idx);
+    };
+    exView().addEventListener('click', tActiveExHandler);
+  } else {
+    // Show countdown first, then start the exercise timer
+    timedBlock.style.display = 'none';
+    repsBlock.style.display  = 'none';
+    countdownEl.classList.add('t-show');
+
+    const PREP_SECS = 5;
+    let prepLeft = PREP_SECS;
+    countdownNum.textContent = prepLeft;
+
+    tInterval = setInterval(() => {
+      prepLeft--;
+      if (prepLeft > 0) {
+        countdownNum.textContent = prepLeft;
+        // Re-trigger the pop animation
+        countdownNum.style.animation = 'none';
+        countdownNum.offsetHeight; // force reflow
+        countdownNum.style.animation = '';
+        playTick();
+      } else {
+        // Countdown done — start the real exercise timer
+        clearInterval(tInterval);
+        countdownEl.classList.remove('t-show');
+        playGoSignal();
+        startExerciseTimer(step, idx);
+      }
+    }, 1000);
+  }
+}
+
+function startExerciseTimer(step, idx) {
+  const timedBlock = document.getElementById('t-timed-block');
+  timedBlock.style.display = 'block';
+
+  const total = step.durSecs;
+  tElapsed = 0;
+
+  const clock = document.getElementById('t-clock');
+  const fill  = document.getElementById('t-progress-fill');
+
+  function updateClock() {
+    const remaining = total - tElapsed;
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    clock.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    fill.style.width  = `${(tElapsed / total) * 100}%`;
+
+    if (remaining <= 3) {
+      clock.className = 't-clock t-danger';
+      fill.className  = 't-progress-fill t-danger';
+      overlay().classList.add('t-flashing');
+      playTick();
+    } else if (remaining <= 8) {
+      clock.className = 't-clock t-warn';
+      fill.className  = 't-progress-fill t-warn';
+    } else {
+      clock.className = 't-clock';
+      fill.className  = 't-progress-fill';
+    }
+  }
+
+  updateClock();
+  tInterval = setInterval(() => {
+    tElapsed++;
+    updateClock();
+    if (tElapsed >= total) {
+      clearInterval(tInterval);
+      overlay().classList.remove('t-flashing');
+      setTimeout(() => advanceFromExercise(idx), 400);
+    }
+  }, 1000);
+}
+
+function advanceFromExercise(idx) {
+  // If next step is rest, play rest-start signal; else go signal
+  const next = tSeq[idx + 1];
+  if (!next) {
+    tIdx = idx + 1;
+    runStep(tIdx);
+    return;
+  }
+  if (next.type === 'rest') {
+    playRestStart();
+  } else {
+    playGoSignal();
+  }
+  tIdx = idx + 1;
+  runStep(tIdx);
+}
+
+function runRest(step, idx) {
+  showView('rest');
+  topLabel().textContent = 'REST';
+  topLabel().classList.add('rest-label');
+  document.querySelector('.t-topbar').classList.add('rest-topbar');
+  overlay().classList.remove('t-flashing');
+
+  const next = step.next;
+  document.getElementById('t-rest-next-name').textContent =
+    next.name + (next.setLabel ? ` · ${next.setLabel}` : '');
+  document.getElementById('t-rest-next-sets').textContent = next.sets;
+  document.getElementById('t-rest-next-note').textContent = next.note;
+  document.getElementById('t-rest-suggested').textContent =
+    `suggested: ${step.suggestedSecs}s`;
+
+  tRestEl = 0;
+  tRestCueFired = false;
+  const elEl = document.getElementById('t-rest-elapsed');
+  elEl.classList.remove('t-cue');
+  document.getElementById('t-tap-cue').classList.remove('visible');
+
+  function updateRest() {
+    const m = Math.floor(tRestEl / 60);
+    const s = tRestEl % 60;
+    elEl.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+
+    const cueAt = step.suggestedSecs + (step.extraSecs || 0);
+    if (!tRestCueFired && tRestEl >= cueAt) {
+      tRestCueFired = true;
+      elEl.classList.add('t-cue');
+      document.getElementById('t-tap-cue').classList.add('visible');
+      playReadyCue();
+    }
+  }
+
+  // +15s button: shift the cue forward
+  const addBtn = document.getElementById('t-add-btn');
+  addBtn.onclick = () => {
+    step.extraSecs = (step.extraSecs || 0) + 15;
+    tRestCueFired = false;
+    elEl.classList.remove('t-cue');
+    document.getElementById('t-tap-cue').classList.remove('visible');
+    document.getElementById('t-rest-suggested').textContent =
+      `suggested: ${step.suggestedSecs + step.extraSecs}s`;
+  };
+
+  updateRest();
+  tInterval = setInterval(() => {
+    tRestEl++;
+    updateRest();
+  }, 1000);
+
+  // Tap anywhere on rest body to advance
+  const restBody = document.querySelector('.t-rest-body');
+  tActiveRestHandler = () => {
+    restBody.removeEventListener('click', tActiveRestHandler);
+    tActiveRestHandler = null;
+    restDone();
+  };
+  restBody.addEventListener('click', tActiveRestHandler);
+}
+
+function restDone() {
+  clearInterval(tInterval);
+  overlay().classList.remove('t-flashing');
+  tIdx++;
+  playGoSignal();
+  runStep(tIdx);
+}
+
+// ── Nav: skip to next/previous exercise ──────────────────────────────────────
+function navToExercise(direction) {
+  clearInterval(tInterval);
+  cleanupHandlers();
+  overlay().classList.remove('t-flashing');
+
+  let target = tIdx + direction;
+  // Skip rest steps in the given direction
+  while (target >= 0 && target < tSeq.length && tSeq[target].type === 'rest') {
+    target += direction;
+  }
+  if (target < 0 || target >= tSeq.length) return;
+  tIdx = target;
+  playGoSignal();
+  runStep(tIdx);
+}
+
+function navNext() { navToExercise(1); }
+function navPrev() { navToExercise(-1); }
+
+function updateNavButtons() {
+  const prevBtn = document.getElementById('t-prev-btn');
+  const nextBtn = document.getElementById('t-next-btn');
+  // Prev: is there an exercise step before current?
+  const hasPrev = tSeq.slice(0, tIdx).some(s => s.type === 'exercise');
+  // Next: is there an exercise step after current?
+  const hasNext = tSeq.slice(tIdx + 1).some(s => s.type === 'exercise');
+  prevBtn.disabled = !hasPrev;
+  nextBtn.disabled = !hasNext;
+}
+
+// ── Keyboard nav ─────────────────────────────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (!overlay().classList.contains('t-active')) return;
+  if (e.key === 'ArrowRight') navNext();
+  if (e.key === 'ArrowLeft')  navPrev();
+});
+
+// ── WEEK TRACKER ──────────────────────────────────────────────────────────
+
+const TRACKER_DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DAY_INDEX_MAP = { 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 0: 6 }; // JS getDay() → tracker index
+
+function getTrackerKey() {
+  const now = new Date();
+  const day = now.getDay();
+  const diff = (day === 0 ? -6 : 1) - day;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + diff);
+  return `tracker-${monday.getFullYear()}-${String(monday.getMonth()+1).padStart(2,'0')}-${String(monday.getDate()).padStart(2,'0')}`;
+}
+
+function loadChecked() {
+  try { return JSON.parse(localStorage.getItem(getTrackerKey())) || []; }
+  catch { return []; }
+}
+
+function saveChecked(arr) {
+  localStorage.setItem(getTrackerKey(), JSON.stringify(arr));
+}
+
+function toggleWeekTracker() {
+  const panel = document.getElementById('week-tracker');
+  const btn = document.getElementById('tracker-toggle-btn');
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  // Save open/closed preference
+  localStorage.setItem('tracker-open', !isOpen ? '1' : '0');
+}
+
+function toggleTrackerDay(idx) {
+  const checked = loadChecked();
+  const pos = checked.indexOf(idx);
+  if (pos >= 0) checked.splice(pos, 1);
+  else checked.push(idx);
+  saveChecked(checked);
+  renderTracker();
+}
+
+function resetTracker() {
+  localStorage.removeItem(getTrackerKey());
+  renderTracker();
+}
+
+function getMissedCount() {
+  const checked = loadChecked();
+  const todayIdx = DAY_INDEX_MAP[new Date().getDay()];
+  let count = 0;
+  for (let i = 0; i < todayIdx && i < 5; i++) {
+    if (!checked.includes(i)) count++;
+  }
+  return count;
+}
+
+function renderTracker() {
+  const container = document.getElementById('week-tracker');
+  const checked = loadChecked();
+  const todayIdx = DAY_INDEX_MAP[new Date().getDay()];
+  const phase = activePhase;
+  const days = data[phase];
+
+  // Update toggle button dot indicator
+  const toggleBtn = document.getElementById('tracker-toggle-btn');
+  const missedCount = getMissedCount();
+  const dot = missedCount > 0 ? '<span class="tracker-dot"></span>' : '';
+  const doneCount = checked.filter(i => i < 5).length;
+  toggleBtn.innerHTML = `My Week (${doneCount}/5)${dot}`;
+
+  let btns = TRACKER_DAYS.map((abbr, i) => {
+    const isDone = checked.includes(i);
+    const isToday = i === todayIdx;
+    const isMissed = i < todayIdx && !isDone && i < 5;
+    const classes = ['tracker-day'];
+    if (isDone) classes.push('done');
+    if (isToday) classes.push('today');
+    if (isMissed) classes.push('missed');
+    return `<div class="${classes.join(' ')}" onclick="toggleTrackerDay(${i})">
+      <span class="day-abbr">${abbr}</span>
+      <span class="day-check">${isDone ? '\u2713' : ''}</span>
+    </div>`;
+  }).join('');
+
+  // Catch-up logic
+  const missedIndices = [];
+  for (let i = 0; i < todayIdx && i < 5; i++) {
+    if (!checked.includes(i)) missedIndices.push(i);
+  }
+
+  let catchup = '';
+  if (missedIndices.length > 0) {
+    const remaining = [];
+    for (let i = todayIdx; i < 5; i++) {
+      if (!checked.includes(i)) remaining.push(i);
+    }
+    const weekendAvail = !checked.includes(5) || !checked.includes(6);
+    if (weekendAvail) remaining.push(5);
+
+    // Rank missed: cardio/conditioning lowest priority
+    const focusTexts = days.map(d => d.focus.toLowerCase());
+    const prioritized = [...missedIndices].sort((a, b) => {
+      const aCard = focusTexts[a].includes('cardio') || focusTexts[a].includes('conditioning');
+      const bCard = focusTexts[b].includes('cardio') || focusTexts[b].includes('conditioning');
+      if (aCard && !bCard) return 1;
+      if (!aCard && bCard) return -1;
+      return 0;
+    });
+
+    const schedule = [];
+    const slotsForMakeup = [];
+    for (const slot of remaining) {
+      if (slot < 5) {
+        schedule.push({ slot, srcIdx: slot, focus: days[slot].focus, isSwap: false });
+      } else {
+        slotsForMakeup.push(slot);
+      }
+    }
+
+    let makeupList = [...prioritized];
+    for (const slot of slotsForMakeup) {
+      if (makeupList.length === 0) break;
+      const missedIdx = makeupList.shift();
+      schedule.push({ slot, srcIdx: missedIdx, focus: days[missedIdx].focus, isSwap: true });
+    }
+
+    const slotName = (i) => TRACKER_DAYS[i];
+    let items = schedule.map(s => {
+      const cls = s.isSwap ? 'catchup-item swap' : 'catchup-item';
+      const label = s.isSwap
+        ? `${days[s.srcIdx].day}'s ${s.focus}`
+        : s.focus;
+      return `<span class="${cls}">
+        <span class="ci-day">${slotName(s.slot)}</span>
+        <span class="ci-arrow">\u2192</span>
+        <span class="ci-focus">${label}</span>
+      </span>`;
+    }).join('');
+
+    let skippedNote = '';
+    if (makeupList.length > 0) {
+      const skippedNames = makeupList.map(i => days[i].focus).join(', ');
+      skippedNote = `<div style="margin-top:6px;color:var(--muted);font-size:0.8rem;">OK to skip: ${skippedNames} (lowest priority)</div>`;
+    }
+
+    catchup = `
+      <div class="catchup-banner">
+        <div class="catchup-title">Missed ${missedIndices.length} day${missedIndices.length > 1 ? 's' : ''} \u2014 catch-up plan</div>
+        <div class="catchup-sched">${items}</div>
+        ${skippedNote}
+      </div>`;
+  }
+
+  const hasAny = checked.length > 0;
+  container.innerHTML = `
+    <div class="tracker-row">${btns}</div>
+    ${catchup}
+    <div class="tracker-footer">
+      <button class="tracker-reset ${hasAny ? 'visible' : ''}" onclick="resetTracker()">Reset week</button>
+    </div>
+  `;
+}
+
+// Re-render tracker when phase changes
+const _origSetPhase = setPhase;
+setPhase = function(phase) {
+  _origSetPhase(phase);
+  document.getElementById('week-tracker').dataset.activePhase = phase;
+  renderTracker();
+};
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+
+// Restore tracker open/closed state (default: closed)
+(function() {
+  const wasOpen = localStorage.getItem('tracker-open') === '1';
+  if (wasOpen) {
+    document.getElementById('week-tracker').classList.add('open');
+    document.getElementById('tracker-toggle-btn').classList.add('open');
+  }
+})();
+
+renderTracker();
+renderAll();
+</script>
+</body>
+</html>
